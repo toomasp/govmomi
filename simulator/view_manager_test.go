@@ -18,10 +18,10 @@ package simulator
 
 import (
 	"context"
-	"github.com/vmware/govmomi/vim25"
 	"sync"
 	"testing"
 
+	"github.com/vmware/govmomi/vim25"
 	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/property"
@@ -110,16 +110,10 @@ func TestContainerViewVPX(t *testing.T) {
 
 	pc := property.DefaultCollector(c.Client)
 
-	mvm := Map.ViewManager()
-
 	for i, test := range tests {
 		cv, err := v.CreateContainerView(ctx, test.root, test.kinds, test.recurse)
 		if err != nil {
 			t.Fatal(err)
-		}
-
-		if len(mvm.ViewList) != 1 {
-			t.Errorf("ViewList=%s", mvm.ViewList)
 		}
 
 		var mcv mo.ContainerView
@@ -137,10 +131,6 @@ func TestContainerViewVPX(t *testing.T) {
 		err = cv.Destroy(ctx)
 		if err != nil {
 			t.Fatal(err)
-		}
-
-		if len(mvm.ViewList) != 0 {
-			t.Errorf("ViewList=%s", mvm.ViewList)
 		}
 	}
 }
@@ -177,8 +167,8 @@ func TestViewManager_CreateContainerView(t *testing.T) {
 			}
 			return dsNames, err
 		}
-    wg := &sync.WaitGroup{}
-    mtx := sync.Mutex{}
+		wg := &sync.WaitGroup{}
+		mtx := sync.Mutex{}
 		var datastores [][]string
 		wg.Add(len(datacenterList))
 		for _, dc := range datacenterList {
@@ -201,8 +191,7 @@ func TestViewManager_CreateContainerView(t *testing.T) {
 				t.Errorf("Invalid number of datastores per datacenter: %d", len(datastores[0]))
 			}
 		}
-		_, err = manager.Destroy(ctx)
-		return err
+		return nil
 	})
 	if err != nil {
 		t.Errorf("Failed to run simulation: %s", err.Error())
